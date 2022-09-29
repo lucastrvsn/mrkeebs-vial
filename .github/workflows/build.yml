@@ -28,5 +28,5 @@ jobs:
           name: firmware
           if-no-files-found: error
           path: |
-            vial-qmk/*.bin
-            vial-qmk/*.hex
+            vial/*.bin
+            vial/*.hex
