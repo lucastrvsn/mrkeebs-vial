@@ -1,0 +1,32 @@
+name: Build QMK firmware
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Clone Vial repository
+        run: git clone https://github.com/vial-kb/vial-qmk.git vial/
+
+      - name: Install QMK dependencies
+        working-directory: ./vial
+        run: |
+          ./util/qmk_install.sh
+          python3 -m pip install qmk
+
+      - name: Retrieve QMK submodules
+        working-directory: ./vial
+        run: make git-submodule
+
+      - name: Compile QMK
+        working-directory: ./vial-qmk
+        run: make ymdk/yd60mq:vial
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: firmware
+          if-no-files-found: error
+          path: |
+            vial-qmk/*.bin
+            vial-qmk/*.hex
