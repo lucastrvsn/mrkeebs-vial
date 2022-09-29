@@ -20,7 +20,7 @@ jobs:
         run: make git-submodule
 
       - name: Compile QMK
-        working-directory: ./vial-qmk
+        working-directory: ./vial
         run: make ymdk/yd60mq:vial
 
       - uses: actions/upload-artifact@v3
